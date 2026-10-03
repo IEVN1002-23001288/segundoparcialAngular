@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            
+                    <form>
+                        <h1>Datos Personales</h1>
+                        <label>Nombre  </label>
+                        <input [(ngModel)]="nom" name="nom" type="text" placeholder="Nombre">
+                        <br>
+                        <br>
+                        <label>APaterno  </label>
+                        <input [(ngModel)]="apa" name="apa" type="text" placeholder="AMaterno">
+                        <br>
+                        <br>
+                        <label>AMaterno  </label>
+                        <input [(ngModel)]="ama" name="ama" type="text" placeholder="NAMaterno">
+                        <br>
+                        
+                        <h1>fecha de nacimiento</h1>
+                        <label>Dia  </label>
+                        <input [(ngModel)]="dia" name="dd" type="number" placeholder="Nombre">
+                        <br>
+                        <label>mes  </label>
+                        <input [(ngModel)]="mes" name="mm" type="number" placeholder="AMaterno">
+                        <br>
+                        <label>año  </label>
+                        <input [(ngModel)]="ano" name="aa" type="number" placeholder="NAMaterno">
+                        <br>
+                        <h1>sexo</h1>
+                        <div>
+                            <label for="mas">Masculino</label>
+                            <input type="radio" name="genero">
+                            <br>
+                            <label for="fem">Femenino</label>
+                            <input type="radio" name="genero">
+                    </div>
+
+                    <button type="button" >Calcular</button>
+                    <h3> {{res1}} </h3>
+                    <h3>tienes {{res2}} años</h3>
+                    <h3>Tu signo zodiacal</h3>
+                    <h3>Es {{res3}} </h3>
+                    <img [src]="imagen" width="250">
+
+
+
+                    </form>
+        </div>
+    </div>
+
+
+</body>
+</html>
