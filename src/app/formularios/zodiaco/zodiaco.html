@@ -22,16 +22,20 @@
                         <label>AMaterno  </label>
                         <input [(ngModel)]="ama" name="ama" type="text" placeholder="NAMaterno">
                         <br>
+                        <br>
                         
                         <h1>fecha de nacimiento</h1>
                         <label>Dia  </label>
                         <input [(ngModel)]="dia" name="dd" type="number" placeholder="Nombre">
                         <br>
+                        <br>
                         <label>mes  </label>
                         <input [(ngModel)]="mes" name="mm" type="number" placeholder="AMaterno">
                         <br>
+                        <br>
                         <label>año  </label>
                         <input [(ngModel)]="ano" name="aa" type="number" placeholder="NAMaterno">
+                        <br>
                         <br>
                         <h1>sexo</h1>
                         <div>
@@ -42,7 +46,7 @@
                             <input type="radio" name="genero">
                     </div>
 
-                    <button type="button" >Calcular</button>
+                    <button type="button" (click)="tipo()" >Calcular</button>
                     <h3> {{res1}} </h3>
                     <h3>tienes {{res2}} años</h3>
                     <h3>Tu signo zodiacal</h3>
