@@ -25,14 +25,12 @@ export class App implements OnInit {
 
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Zodiaco } from './formularios/zodiaco/zodiaco';
-import { Usuario } from './formularios/usuario/usuario';
 import { initFlowbite } from 'flowbite';
 import { Navbar } from './navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [Zodiaco, Navbar, RouterOutlet, Usuario],
+  imports: [ Navbar, RouterOutlet ],
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
