@@ -1,0 +1,181 @@
+<div class="max-w-2xl mx-auto p-6 bg-blue-50 rounded-lg shadow">
+
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">
+    Cinépolis
+  </h1>
+
+  <form [formGroup]="formulario">
+
+    <!-- Nombre -->
+    <div class="mb-5">
+
+      <label
+        for="nombre"
+        class="block mb-2 text-sm font-medium text-gray-900"
+      >
+        Nombre
+      </label>
+
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        formControlName="nombre"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Ingresa tu nombre"
+      >
+
+    </div>
+
+
+    <!-- Cantidad compradores -->
+    <div class="mb-5">
+
+      <label
+        for="cantidadCompradores"
+        class="block mb-2 text-sm font-medium text-gray-900"
+      >
+        Cantidad Compradores
+      </label>
+
+      <input
+        type="number"
+        id="cantidadCompradores"
+        name="cantidadCompradores"
+        formControlName="cantidadCompradores"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Cantidad de compradores"
+      >
+
+    </div>
+
+
+    <!-- Tarjeta Cineco -->
+    <div class="mb-5">
+
+      <label
+        class="block mb-2 text-sm font-medium text-gray-900"
+      >
+        Tarjeta Cineco
+      </label>
+
+      <div class="flex items-center gap-5">
+
+        <label>
+          <input
+            type="radio"
+            name="tarjetaCineco"
+            value="si"
+            formControlName="tarjetaCineco"
+          >
+          Sí
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="tarjetaCineco"
+            value="no"
+            formControlName="tarjetaCineco"
+          >
+          No
+        </label>
+
+      </div>
+
+    </div>
+
+
+    <!-- Cantidad boletos -->
+    <div class="mb-5">
+
+      <label
+        for="cantidadBoletos"
+        class="block mb-2 text-sm font-medium text-gray-900"
+      >
+        Cantidad de Boletos
+      </label>
+
+      <input
+        type="number"
+        id="cantidadBoletos"
+        name="cantidadBoletos"
+        formControlName="cantidadBoletos"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Cantidad de boletos"
+      >
+
+    </div>
+
+  </form>
+
+
+  
+</div>
+
+<div class="max-w-2xl mx-auto mt-5 bg-blue-50 rounded-lg shadow">
+  <div class=" mb-5">
+  
+    <h1 class="text-2xl font-bold mb-3">
+      Salidas
+    </h1>
+  
+    <h2>
+      Nombre: {{nuevaVenta.nombre}}
+    </h2>
+  
+    <h2>
+      Cantidad Compradores: {{nuevaVenta.cantidadCompradores}}
+    </h2>
+  
+    <h2>
+      Tarjeta Cineco: {{nuevaVenta.tarjetaCineco}}
+    </h2>
+  
+    <h2>
+      Cantidad Boletos: {{nuevaVenta.cantidadBoletos}}
+    </h2>
+  
+    <h2>
+      Valor a Pagar: ${{nuevaVenta.valorPagar}}
+    </h2>
+  
+  </div>
+</div>
+
+<div class="max-w-2xl mt-5 mx-auto mt-5 bg-blue-50 rounded-lg shadow">
+    <div class=" mb-5 mt-6">
+  
+    <h1 class="text-2xl font-bold mb-6">
+      Acciones
+    </h1>
+  
+     <div class="flex justify-center m-5 mt-5">
+
+      <button
+        type="button"
+        (click)="muestraCine()"
+        class="text-white bg-blue-700 hover:bg-blue-800 mx-3 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+      >
+        Procesar
+      </button>
+
+    
+
+      <button
+        type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 mx-3 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+      >
+        Salir
+      </button>
+
+    </div>
+  
+  </div>
+</div>
