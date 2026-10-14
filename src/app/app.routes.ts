@@ -47,6 +47,15 @@ export const routes: Routes = [
                         (c)=>c.Cinepolis
                         
                     )
+            },
+            {   
+                path:'ver-registros',
+                loadComponent:()=>
+                    import('./escuela/ver-registros/ver-registros').then(
+
+                        (c)=>c.VerRegistros
+                        
+                    )
             }
         ]   
     },

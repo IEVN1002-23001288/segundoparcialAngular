@@ -1,0 +1,142 @@
+
+<div class="max-w-6xl mx-auto p-6">
+
+  <h1 class="text-3xl font-bold mb-6">
+    Registros de Cinépolis
+  </h1>
+
+  <div
+    *ngIf="indiceEdicion !== -1"
+    class="max-w-2xl mx-auto mb-8 p-6 bg-blue-50 rounded-lg shadow"
+  >
+    <h2 class="text-2xl font-bold mb-5">
+      Editar registro
+    </h2>
+
+    <form [formGroup]="formulario">
+
+      <div class="mb-5">
+        <label class="block mb-2">Nombre</label>
+        <input
+          type="text"
+          formControlName="nombre"
+          class="border rounded-lg w-full p-2.5"
+        >
+      </div>
+
+      <div class="mb-5">
+        <label class="block mb-2">Cantidad de compradores</label>
+        <input
+          type="number"
+          formControlName="cantidadCompradores"
+          class="border rounded-lg w-full p-2.5"
+        >
+      </div>
+
+      <div class="mb-5">
+        <label class="block mb-2">Tarjeta Cineco</label>
+
+        <label class="mr-4">
+          <input
+            type="radio"
+            formControlName="tarjetaCineco"
+            value="si"
+          >
+          Sí
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            formControlName="tarjetaCineco"
+            value="no"
+          >
+          No
+        </label>
+      </div>
+
+      <div class="mb-5">
+        <label class="block mb-2">Cantidad de boletos</label>
+        <input
+          type="number"
+          formControlName="cantidadBoletos"
+          class="border rounded-lg w-full p-2.5"
+        >
+      </div>
+
+      <div class="flex gap-3">
+        <button
+          type="button"
+          (click)="cargar()"
+          class="text-white bg-blue-700 hover:bg-blue-800
+                 rounded-lg px-5 py-2.5"
+        >
+          Cargar
+        </button>
+
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Tabla de ventas -->
+  <div class="relative overflow-x-auto shadow-md rounded-lg">
+
+    <table class="w-full text-sm text-left text-gray-600">
+
+      <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+        <tr>
+          <th class="px-4 py-3">Nombre</th>
+          <th class="px-4 py-3">Compradores</th>
+          <th class="px-4 py-3">Tarjeta Cineco</th>
+          <th class="px-4 py-3">Boletos</th>
+          <th class="px-4 py-3">Total</th>
+          <th class="px-4 py-3">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="let cine of cines; let i = index"
+          class="bg-white border-b hover:bg-gray-50"
+        >
+          <td class="px-4 py-4"> {{ cine.nombre }}</td>
+          <td class="px-4 py-4"> {{ cine.cantidadCompradores }}
+          </td>
+          <td class="px-4 py-4"> {{ cine.tarjetaCineco }}</td>
+          <td class="px-4 py-4"> {{ cine.cantidadBoletos }}</td>
+          <td class="px-4 py-4"> {{ cine.valorPagar }}
+          </td>
+
+          <td class="px-4 py-4">
+            <div class="flex gap-2">
+
+              <button
+                type="button"
+                (click)="editarCine(i)"
+                class="text-white bg-green-600 hover:bg-green-700
+                       rounded-lg px-3 py-2"
+              >
+                Editar
+              </button>
+
+              <button
+                type="button"
+                (click)="eliminarCine(i)"
+                class="text-white bg-red-600 hover:bg-red-700
+                       rounded-lg px-3 py-2"
+              >
+                Eliminar
+              </button>
+
+            </div>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+  
+
+</div>
