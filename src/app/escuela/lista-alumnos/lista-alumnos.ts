@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from "@angular/common";
+import { CommonModule } from '@angular/common';
 import { IAlumno } from '../alumnos';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
- 
+
 @Component({
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   selector: 'app-lista-alumnos',
@@ -10,20 +10,19 @@ import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angul
 })
 export class ListaAlumnos implements OnInit{
   formulario!:FormGroup
- 
+
   alumnos:IAlumno[]=[]
   indiceEdicion:number=-1
-
   nuevoAlumno:IAlumno={
     matricula:'',
     nombre:'',
     correo:'',
     materia:'',
- 
+
   }
- 
- 
- 
+  
+
+  
   ngOnInit():void{
       this.cargarAlumnos()
       this.formulario=new FormGroup({
@@ -38,27 +37,26 @@ export class ListaAlumnos implements OnInit{
       this.nuevoAlumno.matricula === '' ||
       this.nuevoAlumno.nombre === '' ||
       this.nuevoAlumno.correo === '' ||
-      this.nuevoAlumno.materia === ''
+      this.nuevoAlumno.materia === '' 
     ){
       alert('Todos los campos son obligatorios');
       return;
     }
-
     if (this.indiceEdicion !== -1) {
     this.alumnos[this.indiceEdicion]={
       ...this.nuevoAlumno
     }
-    }else{
-      this.alumnos.push({...this.nuevoAlumno})
-    }
- 
+  }else{
+    this.alumnos.push({...this.nuevoAlumno})
+  }
+
     localStorage.setItem(
       'alumnos',
       JSON.stringify(this.alumnos)
     )
     this.limpiarCampos()
   }
- 
+
   muestraAlumnos():void{
     this.nuevoAlumno.matricula=this.formulario.value.matricula
     this.nuevoAlumno.nombre=this.formulario.value.nombre
@@ -66,15 +64,15 @@ export class ListaAlumnos implements OnInit{
     this.nuevoAlumno.materia=this.formulario.value.materia
     this.agregarAlumno()
   }
- 
+
   cargarAlumnos():void{
     const datos = localStorage.getItem('alumnos');
- 
+
     if (datos) {
       this.alumnos = JSON.parse(datos);
     }
   }
- 
+
   editarAlumnos(index:number):void{
     this.nuevoAlumno={
       ...this.alumnos[index]
@@ -86,10 +84,10 @@ export class ListaAlumnos implements OnInit{
       correo:alumno.correo,
       materia:alumno.materia
     })
- 
+
     this.indiceEdicion=index
   }
- 
+  
   eliminarAlumno(index: number):void{
     this.alumnos.splice(index,1)
     localStorage.setItem(
@@ -97,7 +95,7 @@ export class ListaAlumnos implements OnInit{
       JSON.stringify(this.alumnos)
     )
   }
- 
+
   limpiarCampos():void{
     this.nuevoAlumno = {
       matricula:'',
@@ -109,10 +107,9 @@ export class ListaAlumnos implements OnInit{
       matricula: this.nuevoAlumno.matricula,
       nombre: this.nuevoAlumno.nombre,
       correo: this.nuevoAlumno.correo,
-      materia: this.nuevoAlumno.materia,
+      materia: this.nuevoAlumno.materia
     })
     this.indiceEdicion=-1
   }
- 
+  
 }
- 

@@ -1,142 +1,224 @@
-
-<div class="max-w-6xl mx-auto p-6">
-
-  <h1 class="text-3xl font-bold mb-6">
-    Registros de Cinépolis
-  </h1>
-
-  <div
-    *ngIf="indiceEdicion !== -1"
-    class="max-w-2xl mx-auto mb-8 p-6 bg-blue-50 rounded-lg shadow"
-  >
-    <h2 class="text-2xl font-bold mb-5">
-      Editar registro
-    </h2>
-
-    <form [formGroup]="formulario">
-
-      <div class="mb-5">
-        <label class="block mb-2">Nombre</label>
-        <input
-          type="text"
-          formControlName="nombre"
-          class="border rounded-lg w-full p-2.5"
+<br><br>
+<div class="max-w-2xl mx-auto p-6 bg-blue-100 rounded-lg shadow">
+  <h1 class="text-3xl font-bold text-gray-900 mx-60  mb-6">Registros</h1>
+  <form [formGroup]="formulario" >
+    <!-- Nombre -->
+    <div class="mb-5">
+      <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
+        Nombre
+      </label>
+ 
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        formControlName="nombre"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Escribir nombre"
+      />
+    </div>
+    <!-- Cantidad -->
+    <div class="mb-5">
+      <label for="cantidad" class="block mb-2 text-sm font-medium text-gray-900">
+        Cantidad Compradores
+      </label>
+ 
+      <input
+        type="number"
+        id="cantidad"
+        name="cantidad"
+     formControlName="cantidad"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Cantidad Compradores"
+      />
+    </div>
+    <!-- correo -->
+    <div class="mb-5">
+      <label for="tarjeta" class="block mb-2 text-sm font-medium text-gray-900">
+        Tarjeta cineco
+      </label>
+ 
+      <input 
+        type="radio"
+        value="si"
+        id="si"
+        name="tarjeta"
+     formControlName="tarjeta"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+      />
+      Si
+      <input
+        type="radio"
+        value="no"
+        id="no"
+        name="tarjeta"
+     formControlName="tarjeta"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+      />No
+    </div>
+    <!-- materia -->
+    <div class="mb-5">
+      <label for="materia" class="block mb-2 text-sm font-medium text-gray-900">
+        Cantidad de Boletos
+      </label>
+ 
+      <input
+        type="number"
+        id="boletos"
+        name="boletos"
+          formControlName="boletos"
+        required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="Escribir cantidad boletos"
+      />
+    </div>
+    
+    <div class="flex justify-center mt-5">
+        <button
+          type="submit"
+          (click)="muestraCinepolis()"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
         >
+          Procesar
+        </button>
       </div>
-
-      <div class="mb-5">
-        <label class="block mb-2">Cantidad de compradores</label>
-        <input
-          type="number"
-          formControlName="cantidadCompradores"
-          class="border rounded-lg w-full p-2.5"
-        >
-      </div>
-
-      <div class="mb-5">
-        <label class="block mb-2">Tarjeta Cineco</label>
-
-        <label class="mr-4">
-          <input
-            type="radio"
-            formControlName="tarjetaCineco"
-            value="si"
-          >
-          Sí
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            formControlName="tarjetaCineco"
-            value="no"
-          >
-          No
-        </label>
-      </div>
-
-      <div class="mb-5">
-        <label class="block mb-2">Cantidad de boletos</label>
-        <input
-          type="number"
-          formControlName="cantidadBoletos"
-          class="border rounded-lg w-full p-2.5"
-        >
-      </div>
-
-      <div class="flex gap-3">
+    <div class="flex justify-center mt-5">
         <button
           type="button"
-          (click)="cargar()"
-          class="text-white bg-blue-700 hover:bg-blue-800
-                 rounded-lg px-5 py-2.5"
+          routerLink="/Escuela/cinepolis"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Cargar
+          Salir
         </button>
-
       </div>
 
-    </form>
-  </div>
+     
+      
+  </form>
 
-  <!-- Tabla de ventas -->
-  <div class="relative overflow-x-auto shadow-md rounded-lg">
-
-    <table class="w-full text-sm text-left text-gray-600">
-
+  <!-- Tabla -->
+<div class="max-w-6xl mx-auto mt-8">
+ 
+  <h2 class="mb-4 text-2xl font-bold text-gray-900">
+    Lista de Cinepolis
+  </h2>
+  <div
+    class="relative overflow-x-auto shadow-md sm:rounded-lg"
+   
+  >
+ 
+ 
+    <table class="w-full text-sm text-left text-gray-500">
+ 
+      <!-- Encabezado -->
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+ 
         <tr>
-          <th class="px-4 py-3">Nombre</th>
-          <th class="px-4 py-3">Compradores</th>
-          <th class="px-4 py-3">Tarjeta Cineco</th>
-          <th class="px-4 py-3">Boletos</th>
-          <th class="px-4 py-3">Total</th>
-          <th class="px-4 py-3">Acciones</th>
+          <th scope="col" class="px-6 py-3">
+            Nombre
+          </th>
+ 
+          <th scope="col" class="px-6 py-3">
+            Cantidad
+          </th>
+ 
+          <th scope="col" class="px-6 py-3">
+            Tarjeta
+          </th>
+ 
+          <th scope="col" class="px-6 py-3">
+            Boletos
+          </th>
+
+          <th scope="col" class="px-6 py-3">
+            Pagar
+          </th>
+ 
+          <th scope="col" class="px-6 py-3">
+            Acciones
+          </th>
         </tr>
+ 
       </thead>
-
+ 
+      <!-- Datos -->
       <tbody>
-        <tr
-          *ngFor="let cine of cines; let i = index"
-          class="bg-white border-b hover:bg-gray-50"
+ 
+        <tr *ngFor="let cinepolis1 of cinepolis let i = index"
+          class="bg-white border-b border-gray-200 hover:bg-gray-50"
         >
-          <td class="px-4 py-4"> {{ cine.nombre }}</td>
-          <td class="px-4 py-4"> {{ cine.cantidadCompradores }}
+ 
+          <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            {{ cinepolis1.nombre }}
           </td>
-          <td class="px-4 py-4"> {{ cine.tarjetaCineco }}</td>
-          <td class="px-4 py-4"> {{ cine.cantidadBoletos }}</td>
-          <td class="px-4 py-4"> {{ cine.valorPagar }}
+ 
+          <td class="px-6 py-4">
+            {{ cinepolis1.cantidad }}
+          </td>
+ 
+          <td class="px-6 py-4">
+            {{ cinepolis1.tarjeta }}
+          </td>
+ 
+          <td class="px-6 py-4">
+            {{ cinepolis1.boletos }}
           </td>
 
-          <td class="px-4 py-4">
+          <td class="px-6 py-4">
+            {{ cinepolis1.Pagar }}
+          </td>
+ 
+          <td class="px-6 py-4">
+ 
             <div class="flex gap-2">
-
+ 
+              <!-- Botón Editar -->
               <button
                 type="button"
-                (click)="editarCine(i)"
-                class="text-white bg-green-600 hover:bg-green-700
-                       rounded-lg px-3 py-2"
+                class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300"
+                (click)="editarRegistros(i)"
               >
                 Editar
               </button>
-
+ 
+              <!-- Botón Eliminar -->
               <button
                 type="button"
-                (click)="eliminarCine(i)"
-                class="text-white bg-red-600 hover:bg-red-700
-                       rounded-lg px-3 py-2"
+                class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300"
+                (click)="eliminarRegistros(i)"
               >
                 Eliminar
               </button>
-
+ 
             </div>
+ 
           </td>
+ 
         </tr>
+ 
       </tbody>
-
+ 
     </table>
+ 
   </div>
-
-  
-
+ 
+  <!-- Mensaje cuando no existen alumnos -->
+   <div *ngIf="cinepolis.length === 0"
+    class="p-4 mt-4 text-sm text-gray-800 rounded-lg bg-gray-100"
+    role="alert"
+  >
+    <span class="font-medium">Información:</span>
+    No hay registros.
+  </div>
+ 
+</div>
+  <!-- <h1>Lista Alumno</h1>
+  <h2>Matricula: {{nuevoAlumno.matricula}}</h2>
+  <h2>Nombre: {{nuevoAlumno.nombre}}</h2>
+  <h2>Correo: {{nuevoAlumno.correo}}</h2>
+  <h2>Materia: {{nuevoAlumno.materia}}</h2> -->
 </div>

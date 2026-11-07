@@ -1,0 +1,49 @@
+<div class="w-full p-4 sm:p-6 lg:p-8 bg-slate-50 min-h-screen">
+  <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+    <div class="bg-slate-800 px-6 py-5">
+      <h1 class="text-2xl sm:text-3xl font-bold text-white">Alumnos</h1>
+    </div>
+    <div class="p-5 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-end gap-5 mb-6">
+        <button type="button" [routerLink]="['/utl/alumnos/agregar']"
+          class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-lg">
+          Agregar alumno
+        </button>
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Filtrar por nombre:</label>
+          <input [(ngModel)]="listFilter" type="text"
+            class="w-full px-4 py-2.5 border border-slate-300 rounded-lg"
+            placeholder="Ingrese nombre del alumno" />
+        </div>
+      </div>
+      <p *ngIf="cargando" class="p-4">Cargando alumnos...</p>
+      <div class="overflow-x-auto rounded-lg border border-slate-200" *ngIf="!cargando">
+        <table class="w-full table-auto text-sm text-left text-slate-600">
+          <thead class="text-xs uppercase text-slate-700 bg-slate-100">
+            <tr>
+              <th class="px-4 py-4">Matrícula</th><th class="px-4 py-4">Nombre</th>
+              <th class="px-4 py-4">A. Paterno</th><th class="px-4 py-4">A. Materno</th>
+              <th class="px-4 py-4">Correo</th><th class="px-4 py-4">Editar</th><th class="px-4 py-4">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let registro of registros | alumnoFilter:listFilter" class="border-t hover:bg-slate-50">
+              <td class="px-4 py-3">{{registro.matricula}}</td>
+              <td class="px-4 py-3">{{registro.nombre}}</td>
+              <td class="px-4 py-3">{{registro.apaterno}}</td>
+              <td class="px-4 py-3">{{registro.amaterno}}</td>
+              <td class="px-4 py-3">{{registro.correo}}</td>
+              <td class="px-4 py-3">
+                <button [routerLink]="['/utl/alumnos/editar', registro.matricula]" class="px-3 py-1.5 bg-blue-700 text-white rounded">Editar</button>
+              </td>
+              <td class="px-4 py-3">
+                <button [routerLink]="['/utl/alumnos/eliminar', registro.matricula]" class="px-3 py-1.5 bg-red-600 text-white rounded">Eliminar</button>
+              </td>
+            </tr>
+            <tr *ngIf="registros.length === 0"><td colspan="7" class="text-center p-6">No hay alumnos registrados.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

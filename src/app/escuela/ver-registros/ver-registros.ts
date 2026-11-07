@@ -1,133 +1,160 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; 
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ICine } from '../cinepolis';
-import { RouterLink } from '@angular/router';
+import { ICinepoli } from '../cinepoli';
 
 @Component({
+  imports: [RouterModule, CommonModule, FormsModule, ReactiveFormsModule],
   selector: 'app-ver-registros',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './ver-registros.html'
+  templateUrl: './ver-registros.html',
 })
 export class VerRegistros implements OnInit {
-
-  cines: ICine[] = [];
   formulario!: FormGroup;
+  precioBoleto: number = 12;
+  total: number = 0;
+  descuento: number = 0;
+
+  cinepolis: ICinepoli[] = [];
   indiceEdicion: number = -1;
-
-  ngOnInit(): void {
-    this.formulario = new FormGroup({
-      nombre: new FormControl(''),
-      cantidadCompradores: new FormControl(0),
-      tarjetaCineco: new FormControl(''),
-      cantidadBoletos: new FormControl(0)
-    });
-
-    this.cargarCines();
-  }
-
-  cargarCines(): void {
-    const datos = localStorage.getItem('cines');
-    this.cines = datos ? JSON.parse(datos) : [];
-  }
-
-  editarCine(index: number): void {
-    const cine = this.cines[index];
-
-    this.indiceEdicion = index;
-
-    this.formulario.patchValue({
-      nombre: cine.nombre,
-      cantidadCompradores: cine.cantidadCompradores,
-      tarjetaCineco: cine.tarjetaCineco,
-      cantidadBoletos: cine.cantidadBoletos
-    });
-  }
-
- 
-cargar(): void {
-  if (this.indiceEdicion === -1) {
-    return;
-  }
-
-  const datos = this.formulario.value;
-
-  const nuevaVenta: ICine = {
-    nombre: datos.nombre,
-    cantidadCompradores: Number(datos.cantidadCompradores),
-    tarjetaCineco: datos.tarjetaCineco,
-    cantidadBoletos: Number(datos.cantidadBoletos),
-    valorPagar: 0
+  nuevoCinepolis: ICinepoli = {
+    nombre: '',
+    cantidad: 0,
+    tarjeta: '',
+    boletos: 0,
+    Pagar: 0,
+    error: '',
   };
 
-  if (
-    nuevaVenta.nombre === '' ||
-    nuevaVenta.cantidadCompradores <= 0 ||
-    nuevaVenta.tarjetaCineco === '' ||
-    nuevaVenta.cantidadBoletos <= 0
-  ) {
-    alert('Todos los campos son obligatorios');
-    return;
+  ngOnInit(): void {
+    this.cargarRegistros();
+    this.formulario = new FormGroup({
+      nombre: new FormControl(''),
+      cantidad: new FormControl(''),
+      tarjeta: new FormControl(''),
+      boletos: new FormControl(''),
+      Pagar: new FormControl(''),
+    });
   }
 
-  if (
-    nuevaVenta.cantidadBoletos >
-    nuevaVenta.cantidadCompradores * 7
-  ) {
-    alert('Maximo 7 boletos por persona');
-    return;
-  }
+  agregarRegistro(): void {
+    if (
+      this.nuevoCinepolis.nombre === '' ||
+      this.nuevoCinepolis.cantidad === 0 ||
+      this.nuevoCinepolis.tarjeta === '' ||
+      this.nuevoCinepolis.boletos === 0
+    ) {
+      alert('Todos los campos son obligatorios');
+      return;
+    }
 
-  nuevaVenta.valorPagar = nuevaVenta.cantidadBoletos * 12;
+    if (this.indiceEdicion !== -1) {
+      this.cinepolis[this.indiceEdicion] = {
+        ...this.nuevoCinepolis
+      };
+    } else {
+      this.cinepolis.push({ ...this.nuevoCinepolis });
+    }
 
-  if (nuevaVenta.cantidadBoletos > 5) {
-    nuevaVenta.valorPagar = nuevaVenta.valorPagar - (nuevaVenta.valorPagar * 0.15);
-  } else if (nuevaVenta.cantidadBoletos >= 3) {
-    nuevaVenta.valorPagar = nuevaVenta.valorPagar - (nuevaVenta.valorPagar * 0.10);
-  }
-
-  switch (nuevaVenta.tarjetaCineco) {
-    case 'si':
-      nuevaVenta.valorPagar = nuevaVenta.valorPagar - (nuevaVenta.valorPagar * 0.10);
-      break;
-
-    case 'no':
-      break;
-  }
-
-  this.cines[this.indiceEdicion] = nuevaVenta;
-
-  localStorage.setItem('cines', JSON.stringify(this.cines));
-
-  this.cargarCines();
-
-  this.formulario.reset({
-    nombre: '',
-    cantidadCompradores: 0,
-    tarjetaCineco: '',
-    cantidadBoletos: 0
-  });
-
-  this.indiceEdicion = -1;
-}
-
-
-  eliminarCine(index: number): void {
-      this.cines.splice(index, 1);
-
-      localStorage.setItem(
-        'cines',
-        JSON.stringify(this.cines)
-      );
-
-      if (this.indiceEdicion === index) {
-      }
-      else if (this.indiceEdicion > index) {
-        this.indiceEdicion--;
-      }
+    localStorage.setItem(
+      'cinepolis',
+      JSON.stringify(this.cinepolis)
+    );
     
+    // Se comenta para que los datos no se borren de la pantalla inmediatamente
+    // this.limpiarCampos();
   }
 
-  
+  muestraCinepolis(): void {
+    this.nuevoCinepolis.nombre = this.formulario.value.nombre;
+    this.nuevoCinepolis.cantidad = Number(this.formulario.value.cantidad);
+    this.nuevoCinepolis.tarjeta = this.formulario.value.tarjeta;
+    this.nuevoCinepolis.boletos = Number(this.formulario.value.boletos);
+    
+    // 1. Primero realiza los cálculos
+    this.salidaCinepolis();
+    
+    // 2. Actualiza el formulario visualmente con el precio calculado
+    this.formulario.patchValue({
+      Pagar: this.nuevoCinepolis.Pagar
+    });
+
+    // 3. Guarda el registro en la tabla y en localStorage
+    this.agregarRegistro();
+  }
+
+  salidaCinepolis(): void {
+    this.total = this.nuevoCinepolis.boletos * this.precioBoleto;
+    if (this.nuevoCinepolis.boletos <= (this.nuevoCinepolis.cantidad * 7)) {
+      if (this.nuevoCinepolis.boletos > 5) {
+        this.descuento = this.total * 0.15;
+      }
+      if (this.nuevoCinepolis.boletos >= 3 && this.nuevoCinepolis.boletos <= 5) {
+        this.descuento = this.total * 0.10;
+      }
+      if (this.nuevoCinepolis.boletos <= 2) {
+        this.descuento = 0;
+      }
+      
+      this.nuevoCinepolis.Pagar = this.total - this.descuento;
+      
+      if (this.nuevoCinepolis.tarjeta == 'si') {
+        this.nuevoCinepolis.Pagar = this.nuevoCinepolis.Pagar - (this.nuevoCinepolis.Pagar * 0.10);
+      }
+      this.nuevoCinepolis.error = ''; // Limpiar errores previos
+    } else {
+      this.nuevoCinepolis.Pagar = 0;
+      this.nuevoCinepolis.error = 'Maximo numero de boletos por comprador son 7';
+    }
+  }
+
+  cargarRegistros(): void {
+    const datos = localStorage.getItem('cinepolis');
+    if (datos) {
+      this.cinepolis = JSON.parse(datos);
+    }
+  }
+
+  editarRegistros(index: number): void {
+    this.nuevoCinepolis = {
+      ...this.cinepolis[index]
+    };
+    const cinepoli = this.cinepolis[index];
+    this.formulario.patchValue({
+      nombre: cinepoli.nombre,
+      cantidad: cinepoli.cantidad,
+      tarjeta: cinepoli.tarjeta,
+      boletos: cinepoli.boletos,
+      Pagar: cinepoli.Pagar
+    });
+
+    this.indiceEdicion = index;
+  }
+
+  eliminarRegistros(index: number): void {
+    this.cinepolis.splice(index, 1);
+    localStorage.setItem(
+      'cinepolis',
+      JSON.stringify(this.cinepolis)
+    );
+  }
+
+  limpiarCampos(): void {
+    this.nuevoCinepolis = {
+      nombre: '',
+      cantidad: 0,
+      tarjeta: '',
+      boletos: 0,
+      Pagar: 0,
+      error: '',
+    };
+    this.formulario.patchValue({
+      nombre: this.nuevoCinepolis.nombre,
+      cantidad: this.nuevoCinepolis.cantidad,
+      tarjeta: this.nuevoCinepolis.tarjeta,
+      boletos: this.nuevoCinepolis.boletos,
+      Pagar: this.nuevoCinepolis.Pagar
+    });
+    this.indiceEdicion = -1;
+  }
 }

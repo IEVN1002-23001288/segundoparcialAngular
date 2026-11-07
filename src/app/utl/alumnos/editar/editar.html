@@ -1,0 +1,26 @@
+<div class="min-h-screen bg-slate-50 p-6">
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow border">
+    <h2 class="text-2xl font-bold text-slate-800 mb-6">Editar Alumno</h2>
+    <div class="grid gap-4">
+      <label class="block">Matrícula
+        <input type="number" formControlName="matricula" class="mt-1 w-full border rounded-lg p-3 bg-slate-100" />
+      </label>
+      <label class="block">Nombre
+        <input type="text" formControlName="nombre" class="mt-1 w-full border rounded-lg p-3" />
+      </label>
+      <label class="block">Apellido paterno
+        <input type="text" formControlName="apaterno" class="mt-1 w-full border rounded-lg p-3" />
+      </label>
+      <label class="block">Apellido materno
+        <input type="text" formControlName="amaterno" class="mt-1 w-full border rounded-lg p-3" />
+      </label>
+      <label class="block">Correo
+        <input type="email" formControlName="correo" class="mt-1 w-full border rounded-lg p-3" />
+      </label>
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button type="submit" [disabled]="formulario.invalid" class="bg-blue-700 disabled:opacity-50 text-white px-5 py-2.5 rounded-lg">Guardar cambios</button>
+      <button type="button" [routerLink]="['/utl/alumnos']" class="bg-slate-200 px-5 py-2.5 rounded-lg">Cancelar</button>
+    </div>
+  </form>
+</div>
